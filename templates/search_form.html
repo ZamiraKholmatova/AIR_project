@@ -1,0 +1,62 @@
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    function search(){
+        let query = document.getElementById("query").value;
+        document.getElementById('files').innerHTML='';
+        console.log(query)
+        if (query.length){
+            axios.get('/api_search', {
+                params: { query:query, }
+            }).then(function (response) {
+                console.log(response);
+                if (response.status == 200){
+                    let data = response.data;
+                    if (data.length == 0){
+                        document.getElementById('files').innerHTML='Nothing to show'
+                    }
+                    else{
+                        let docs = '';
+                        data.forEach(function(element) {
+                            docs += `<div id='container-${element.id}'> <a href='${element.url}'> ${element.name} </a>
+                            <button class="delete-button" onclick='delete_file("${element.id }")'>Delete</button>
+                            </div>`;
+                        });
+                        document.getElementById('files').innerHTML=docs;
+                    }
+                }
+            }).catch(function (error) {
+            console.log(error);
+        });
+        }
+    }
+
+    function delete_file(file_id) {
+        let container_id = "container-" + file_id;
+        console.log(container_id);
+        console.log(file_id);
+        axios.post('/remove', {
+            file_id: file_id,
+        }).then(function () {
+            document.getElementById(container_id).remove();
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+</script>
+
+
+{% include "menu.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+<div class="container-fluid">
+    <label for="query">Your query:</label><br>
+    <input type="text" name="query" id="query">
+    <button type="submit" id="search" onclick="search()">Search</button>
+    <div id="files"></div>
+</div>
+</body>
+</html>

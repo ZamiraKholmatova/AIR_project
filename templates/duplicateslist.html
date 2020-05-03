@@ -1,0 +1,34 @@
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+
+    function delete_file(file_id) {
+        let container_id = "container-" + file_id;
+        console.log(file_id);
+        axios.post('/remove', {
+            file_id: file_id,
+        }).then(function () {
+            document.getElementById(container_id).remove();
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+</script>
+
+{% include "menu.html" %}
+
+{% for element in lst %}
+    <li>
+    {% for f in element %}
+        <div id="container-{{ f.id }}">
+        File
+            <a href="{{ f.url }}">
+        {{ f.name }}
+<!--                {{ f.number }}-->
+        </a>
+        was lastly modified
+        <span style="color: #0000a0">{{ f.modified_time }}</span>
+        <button class="delete-button" onclick='delete_file("{{ f.id }}")'>Delete</button>
+        </div>
+    {% endfor %}
+{% endfor %}
+

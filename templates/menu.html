@@ -1,0 +1,30 @@
+<body>
+<nav class="nav">
+    <a class="nav-link" href="/">Home</a>
+
+    {% if not user_loged_in %}
+        <a class="nav-link" href="/authorize">Authorize</a>
+    {% else %}
+        {% if not dupls_exist() %}
+            {% if not index_exist() %}
+                <a class="nav-link" href="/load">Load files</a>
+            {% else %}
+                <a class="nav-link" href="/load_dupls">Load files for duplicates</a>
+                <a class="nav-link" href="/search">Search</a>
+            {% endif %}
+        {% else %}
+            {% if not index_exist() %}
+                <a class="nav-link" href="/duplicates">Find duplicates</a>
+                <a class="nav-link" href="/load_search">Load files for search</a>
+            {% else %}
+                <a class="nav-link" href="/duplicates">Find duplicates</a>
+                <a class="nav-link" href="/search">Search</a>
+                <a class="nav-link" href="/delete_indices">Delete index</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    <a class="nav-link" href="/revoke">Revoke</a>
+    <a class="nav-link" href="/clear">Clear credentials</a>
+
+</nav>
+</body>
