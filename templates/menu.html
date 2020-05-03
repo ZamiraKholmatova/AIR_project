@@ -19,9 +19,11 @@
             {% else %}
                 <a class="nav-link" href="/duplicates">Find duplicates</a>
                 <a class="nav-link" href="/search">Search</a>
-                <a class="nav-link" href="/delete_indices">Delete index</a>
             {% endif %}
         {% endif %}
+    {% endif %}
+    {% if dupls_exist() or index_exist() %}
+        <a class="nav-link" href="/delete_indices">Delete index</a>
     {% endif %}
     <a class="nav-link" href="/revoke">Revoke</a>
     <a class="nav-link" href="/clear">Clear credentials</a>
